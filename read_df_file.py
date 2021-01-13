@@ -12,6 +12,11 @@ def read_sheet():
     df = pandas.read_csv(URL, index_col=False)
     return df
 
+def write_json(data, filename='file.json'):
+    with open(filename, 'w') as f:
+        json.dump(data, f, indent=4)
+
+
 def save_in_db_new_entry():
     df = read_sheet()
     with open("file.json") as file:
@@ -60,6 +65,9 @@ def save_in_db_new_entry():
           }
           posting_api = requests.post("http://127.0.0.1:8000/items/insert/", json=dict_to_insert)
           print("Data Posted Via API")
+
+        y = {"new_entry": len(df)}
+        write_json(y)
     elif len(df) == len(data["new_entry"]):
         return "No new Entry"
 
